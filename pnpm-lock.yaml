@@ -47,6 +47,18 @@ dependencies:
   '@dcloudio/uni-quickapp-webview':
     specifier: 3.0.0-4010520240507001
     version: 3.0.0-4010520240507001(postcss@8.4.38)(vue@3.4.30)
+  '@dcloudio/uni-ui':
+    specifier: ^1.5.5
+    version: 1.5.5
+  pinia:
+    specifier: ^2.1.7
+    version: 2.1.7(vue@3.4.30)
+  pinia-plugin-persistedstate:
+    specifier: ^3.2.1
+    version: 3.2.1(pinia@2.1.7)
+  sass:
+    specifier: ^1.77.6
+    version: 1.77.6
   vue:
     specifier: ^3.4.21
     version: 3.4.30
@@ -75,7 +87,7 @@ devDependencies:
     version: 3.4.30
   vite:
     specifier: 5.2.8
-    version: 5.2.8(terser@5.31.1)
+    version: 5.2.8(sass@1.77.6)(terser@5.31.1)
 
 packages:
 
@@ -1961,6 +1973,10 @@ packages:
       - vue
     dev: false
 
+  /@dcloudio/uni-ui@1.5.5:
+    resolution: {integrity: sha512-DTr8o4lcRgu4JJclA2eT7UFVKtglK63OUtcDGysrSeZhgAJAC2gBYm/pYbv0BFxKqxfbdoAFGAFCigCVY9+NAQ==}
+    dev: false
+
   /@dcloudio/vite-plugin-uni@3.0.0-4010520240507001(postcss@8.4.38)(vite@5.2.8)(vue@3.4.30):
     resolution: {integrity: sha512-7fsPM3iUo6+TLIlgrXHYKBHpTNfO2VVqhTVZ/A3yF1ddsGUQw8ekTgqpFbHJJ1kWl3CbwBROooq8yMGbNybZBA==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -1993,7 +2009,7 @@ packages:
       picocolors: 1.0.1
       terser: 5.31.1
       unplugin-auto-import: 0.16.7
-      vite: 5.2.8(terser@5.31.1)
+      vite: 5.2.8(sass@1.77.6)(terser@5.31.1)
     transitivePeerDependencies:
       - '@nuxt/kit'
       - '@vueuse/core'
@@ -3164,7 +3180,7 @@ packages:
       regenerator-runtime: 0.14.1
       systemjs: 6.15.1
       terser: 5.31.1
-      vite: 5.2.8(terser@5.31.1)
+      vite: 5.2.8(sass@1.77.6)(terser@5.31.1)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -3179,7 +3195,7 @@ packages:
       '@babel/core': 7.24.7
       '@babel/plugin-transform-typescript': 7.24.7(@babel/core@7.24.7)
       '@vue/babel-plugin-jsx': 1.2.2(@babel/core@7.24.7)
-      vite: 5.2.8(terser@5.31.1)
+      vite: 5.2.8(sass@1.77.6)(terser@5.31.1)
       vue: 3.4.30
     transitivePeerDependencies:
       - supports-color
@@ -3192,7 +3208,7 @@ packages:
       vite: ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.2.8(terser@5.31.1)
+      vite: 5.2.8(sass@1.77.6)(terser@5.31.1)
       vue: 3.4.30
 
   /@vue/babel-helper-vue-transform-on@1.2.2:
@@ -4522,6 +4538,9 @@ packages:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
     dev: false
 
+  /immutable@4.3.6:
+    resolution: {integrity: sha512-Ju0+lEMyzMVZarkTn/gqRpdqd5dOPaz1mCZ0SH3JV6iFw81PldE/PEB1hWVEA288HPt4WXW8O7AWxB10M+03QQ==}
+
   /import-local@3.1.0:
     resolution: {integrity: sha512-ASB07uLtnDs1o6EHjKpX34BKYDSqnFerfTOJL2HvMqF70LnxpjkzDB8J44oT9pu4AMPkQwf8jl6szgvNd2tRIg==}
     engines: {node: '>=8'}
@@ -5635,6 +5654,31 @@ packages:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
 
+  /pinia-plugin-persistedstate@3.2.1(pinia@2.1.7):
+    resolution: {integrity: sha512-MK++8LRUsGF7r45PjBFES82ISnPzyO6IZx3CH5vyPseFLZCk1g2kgx6l/nW8pEBKxxd4do0P6bJw+mUSZIEZUQ==}
+    peerDependencies:
+      pinia: ^2.0.0
+    dependencies:
+      pinia: 2.1.7(vue@3.4.30)
+    dev: false
+
+  /pinia@2.1.7(vue@3.4.30):
+    resolution: {integrity: sha512-+C2AHFtcFqjPih0zpYuvof37SFxMQ7OEG2zV9jRI12i9BOy3YQVAHwdKtyyc8pDcDyIc33WCIsZaCFWU7WWxGQ==}
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.3.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      '@vue/devtools-api': 6.6.3
+      vue: 3.4.30
+      vue-demi: 0.14.8(vue@3.4.30)
+    dev: false
+
   /pirates@4.0.6:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}
     engines: {node: '>= 6'}
@@ -5983,6 +6027,15 @@ packages:
   /safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: true
+
+  /sass@1.77.6:
+    resolution: {integrity: sha512-ByXE1oLD79GVq9Ht1PeHWCPMPB8XHpBuz1r85oByKHjZY6qV6rWnQovQzXJXuQ/XyE1Oj3iPk3lo28uzaRA2/Q==}
+    engines: {node: '>=14.0.0'}
+    hasBin: true
+    dependencies:
+      chokidar: 3.6.0
+      immutable: 4.3.6
+      source-map-js: 1.2.0
 
   /sax@1.4.1:
     resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
@@ -6465,7 +6518,7 @@ packages:
     engines: {node: '>= 0.8'}
     dev: true
 
-  /vite@5.2.8(terser@5.31.1):
+  /vite@5.2.8(sass@1.77.6)(terser@5.31.1):
     resolution: {integrity: sha512-OyZR+c1CE8yeHw5V5t59aXsUPPVTHMDjEZz8MgguLL/Q7NblxhZUlTu9xSPqlsUO/y+X7dlU05jdhvyycD55DA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -6496,9 +6549,25 @@ packages:
       esbuild: 0.20.2
       postcss: 8.4.38
       rollup: 4.18.0
+      sass: 1.77.6
       terser: 5.31.1
     optionalDependencies:
       fsevents: 2.3.3
+
+  /vue-demi@0.14.8(vue@3.4.30):
+    resolution: {integrity: sha512-Uuqnk9YE9SsWeReYqK2alDI5YzciATE0r2SkA6iMAtuXvNTMNACJLJEXNXaEy94ECuBe4Sk6RzRU80kjdbIo1Q==}
+    engines: {node: '>=12'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      '@vue/composition-api': ^1.0.0-rc.1
+      vue: ^3.0.0-0 || ^2.6.0
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      vue: 3.4.30
+    dev: false
 
   /vue-i18n@9.13.1(vue@3.4.30):
     resolution: {integrity: sha512-mh0GIxx0wPtPlcB1q4k277y0iKgo25xmDPWioVVYanjPufDBpvu5ySTjP5wOrSvlYQ2m1xI+CFhGdauv/61uQg==}
