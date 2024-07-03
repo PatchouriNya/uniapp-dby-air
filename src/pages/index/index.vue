@@ -20,20 +20,20 @@
     </view>
     <view class="control-section">
       <view class="control-row">
-        <view class="control-item power">
+        <view class="control-item power" hover-class="bg-click" hover-stay-time="50">
           <view class="control-icon power-icon"></view>
         </view>
-        <view class="control-item">模式</view>
+        <view class="control-item" hover-class="bg-click" hover-stay-time="50" @tap="" @click="">模式</view>
       </view>
       <view class="control-row">
-        <view class="control-item">风速</view>
-        <view class="control-item">风向</view>
-        <view class="control-item">扫风</view>
+        <view class="control-item" hover-class="bg-click" hover-stay-time="50">风速</view>
+        <view class="control-item" hover-class="bg-click" hover-stay-time="50">风向</view>
+        <view class="control-item" hover-class="bg-click" hover-stay-time="50">扫风</view>
       </view>
       <view class="control-row">
-        <view class="control-item minus-icon">-</view>
+        <view class="control-item minus-icon" hover-class="bg-click" hover-stay-time="50">-</view>
         <view class="control-item adjust-icon">温度</view>
-        <view class="control-item plus-icon">+</view>
+        <view class="control-item plus-icon" hover-class="bg-click" hover-stay-time="50">+</view>
       </view>
       <view class="control-row">
         <view class="control-item btn-disabled">定时</view>
@@ -47,7 +47,13 @@
   </view>
 </template>
 
+<script setup>
+
+</script>
+
 <style>
+
+
 .container {
   display: flex;
   flex-direction: column;
@@ -160,6 +166,9 @@
 .control-item.power {
   color: #fff;
 }
+.control-item.clicked {
+  background-color: #4cd964;
+}
 
 .control-icon {
   width: 48rpx;
@@ -220,6 +229,7 @@
 .btn-disabled {
   color: #999;
 }
+.bg-click{
+  background:#fafafa;
+}
 </style>
-<script setup lang="ts">
-</script>
