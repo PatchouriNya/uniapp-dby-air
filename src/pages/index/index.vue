@@ -21,7 +21,7 @@
     <view class="control-section">
       <view class="control-row">
         <view class="control-item power" hover-class="bg-click" hover-stay-time="50">
-          <view class="control-icon power-icon"></view>
+          <img class="power-icon" src="../../static/power_btn.png" alt="">
         </view>
         <view class="control-item" hover-class="bg-click" hover-stay-time="50" @tap="" @click="">模式</view>
       </view>
@@ -170,14 +170,10 @@
   background-color: #4cd964;
 }
 
-.control-icon {
-  width: 48rpx;
-  height: 48rpx;
-  background-color: #ccc; /* Placeholder for icons */
-}
 
 .power-icon {
-  background-color: green; /* Placeholder for power icon */
+  width: 32rpx;
+  height: 32rpx;
 }
 
 .temperature-adjust {
