@@ -67,6 +67,8 @@
     "@dcloudio/uni-cli-shared": "3.0.0-4010520240507001",
     "@dcloudio/uni-stacktracey": "3.0.0-4010520240507001",
     "@dcloudio/vite-plugin-uni": "3.0.0-4010520240507001",
+    "@types/html5plus": "^1.0.5",
+    "@types/uni-app": "^1.4.8",
     "@vue/runtime-core": "^3.4.21",
     "vite": "5.2.8"
   }
