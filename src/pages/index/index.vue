@@ -30,15 +30,15 @@
         <view class="control-item">风向</view>
         <view class="control-item">扫风</view>
       </view>
-      <view class="control-row temperature-adjust">
-        <view class="adjust-icon minus-icon"></view>
-        <text class="temperature-text">温度</text>
-        <view class="adjust-icon plus-icon"></view>
+      <view class="control-row">
+        <view class="control-item minus-icon">-</view>
+        <view class="control-item adjust-icon">温度</view>
+        <view class="control-item plus-icon">+</view>
       </view>
       <view class="control-row">
-        <view class="control-item">定时</view>
-        <view class="control-item">睡眠</view>
-        <view class="control-item">...</view>
+        <view class="control-item btn-disabled">定时</view>
+        <view class="control-item btn-disabled">睡眠</view>
+        <view class="control-item btn-disabled">...</view>
       </view>
       <view class="send-command">
         <button class="send-button">发送指令</button>
@@ -158,7 +158,6 @@
 }
 
 .control-item.power {
-  background-color: #F1F1F1;
   color: #fff;
 }
 
@@ -182,17 +181,19 @@
 }
 
 .adjust-icon {
-  width: 48rpx;
-  height: 48rpx;
-  background-color: #ccc; /* Placeholder for icons */
+  border-right: none;
 }
 
 .minus-icon {
-  background-color: red; /* Placeholder for minus icon */
+  font-size: 42rpx;
+  background-color: white; /* Placeholder for minus icon */
+  border-right: none;
 }
 
 .plus-icon {
-  background-color: blue; /* Placeholder for plus icon */
+  font-size: 42rpx;
+  background-color: white; /* Placeholder for plus icon */
+  border-left: none;
 }
 .send-command {
   display: flex;
@@ -216,4 +217,9 @@
 .send-button:active {
   background-color: #66B1FF; /* 按钮点击时变浅的颜色 */
 }
+.btn-disabled {
+  color: #999;
+}
 </style>
+<script setup lang="ts">
+</script>
