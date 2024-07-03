@@ -1,94 +1,33 @@
 <template>
   <view class="content">
-    <view class="card" v-for="(airConditioner, index) in airConditioners" :key="index">
-      <image class="icon" :src="airConditioner.icon"></image>
-      <text class="name">{{ airConditioner.name }}</text>
-      <text class="brand">{{ airConditioner.brand }}</text>
+    <view class="card" v-for="(airConditioner) in airConditioners" :key="airConditioner.id">
+      <image v-if="regex1.test(airConditioner.air_brand)" class="icon" src="/static/guaji.png"></image>
+      <image v-else class="icon" src="/static/guiji.png"></image>
+      <text class="name">{{ airConditioner.designation }}</text>
+      <text class="brand">{{ airConditioner.air_brand }}</text>
     </view>
   </view>
 </template>
 
 
 
-<script>
-  export default {
-    data() {
-      return {
-        airConditioners: [
-          {
-            icon: '../../static/ac1.png',
-            name: '空调1',
-            brand: '品牌A'
-          },
-          {
-            icon: '../../static/ac2.png',
-            name: '空调2',
-            brand: '品牌B'
-          },
-          {
-            icon: '../../static/ac3.png',
-            name: '空调3',
-            brand: '品牌C'
-          },
-          {
-            icon: '../../static/ac4.png',
-            name: '空调4',
-            brand: '品牌D'
-          },
-          {
-            icon: '../../static/ac4.png',
-            name: '空调4',
-            brand: '品牌D'
-          },
-          {
-            icon: '../../static/ac4.png',
-            name: '空调4',
-            brand: '品牌D'
-          },
-          {
-            icon: '../../static/ac4.png',
-            name: '空调4',
-            brand: '品牌D'
-          },
-          {
-            icon: '../../static/ac4.png',
-            name: '空调4',
-            brand: '品牌D'
-          },
-          {
-            icon: '../../static/ac4.png',
-            name: '空调4',
-            brand: '品牌D'
-          },
-          {
-            icon: '../../static/ac4.png',
-            name: '空调4',
-            brand: '品牌D'
-          },
-          {
-            icon: '../../static/ac4.png',
-            name: '空调4',
-            brand: '品牌D'
-          },
-          {
-            icon: '../../static/ac4.png',
-            name: '空调4',
-            brand: '品牌D'
-          },
-          {
-            icon: '../../static/ac4.png',
-            name: '空调4',
-            brand: '品牌D'
-          },
-          {
-            icon: '../../static/ac4.png',
-            name: '空调4',
-            brand: '品牌D'
-          }
-        ]
-      }
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+import {http} from '../../utils/http'
+const airConditioners = ref()
+const regex1 = /挂机/
+const getAirData = async ()=>{
+  const res = await http({
+    method: 'GET',
+    url:'/api/dby/airs/1?size=99999',
+  })
+  console.log(res)
+  if (res.code === 200)
+    airConditioners.value = res.data.data
+  console.log(airConditioners.value)
+}
+getAirData()
+
 </script>
 
 
@@ -115,13 +54,13 @@
   }
 
   .icon {
-    width: 100rpx;
-    height: 100rpx;
+    width: 64rpx;
+    height: 64rpx;
     margin-bottom: 10rpx;
   }
 
   .name {
-    font-size: 32rpx;
+    font-size: 24rpx;
     font-weight: bold;
     color: #333;
     margin-bottom: 5rpx;
