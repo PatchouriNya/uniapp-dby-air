@@ -1,89 +1,219 @@
 <template>
-  <view class="content">
-    <uni-card title="基础卡片" sub-title="副标题" extra="额外信息" thumbnail="https://qiniu-web-assets.dcloud.net.cn/unidoc/zh/unicloudlogo.png">
-      <text>这是一个带头像和双标题的基础卡片，此示例展示了一个完整的卡片。</text>
-    </uni-card>
-    <view class="logo-area">
-      <image class="logo" src="/static/logo.png"></image>
+  <view class="container">
+    <view class="header">
+      <view class="back-icon"></view>
+      <view class="title">卧室的美的空调</view>
+      <view class="menu-icon"></view>
     </view>
-    <view class="text-area">
-      <text class="title">{{title}}</text>
+    <view class="temperature-section">
+      <text class="temperature">24</text>
+      <text class="degree-symbol">℃</text>
+      <view class="mode">
+        <view class="mode-icon"></view>
+        <text>制冷</text>
+      </view>
     </view>
-    <view class="form-area">
-      <input class="input" type="text" placeholder="请输入用户名" />
-      <input class="input" type="password" placeholder="请输入密码" />
-      <button class="login-button" bindtap="onLogin">登录</button>
-      <button class="login-button" @click="gogo">走</button>
-
+    <view class="status-section">
+      <view class="status-item">AUTO 风速 自动</view>
+      <view class="status-item">风向 下</view>
+      <view class="status-item">手动风向</view>
+    </view>
+    <view class="control-section">
+      <view class="control-row">
+        <view class="control-item power">
+          <view class="control-icon power-icon"></view>
+        </view>
+        <view class="control-item">模式</view>
+      </view>
+      <view class="control-row">
+        <view class="control-item">风速</view>
+        <view class="control-item">风向</view>
+        <view class="control-item">扫风</view>
+      </view>
+      <view class="control-row temperature-adjust">
+        <view class="adjust-icon minus-icon"></view>
+        <text class="temperature-text">温度</text>
+        <view class="adjust-icon plus-icon"></view>
+      </view>
+      <view class="control-row">
+        <view class="control-item">定时</view>
+        <view class="control-item">睡眠</view>
+        <view class="control-item">...</view>
+      </view>
+      <view class="send-command">
+        <button class="send-button">发送指令</button>
+      </view>
     </view>
   </view>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-const title = ref('欢迎登录')
-const onLogin = () => {
-  console.log('登录成功')
-}
-const gogo = () => {
-  // 跳转到air页面
-  uni.navigateTo({ url: '/pages/air/index' }
-  )
-}
-onLogin()
-</script>
-
-<style scoped>
-.content {
+<style>
+.container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  padding: 0;
+  background-color: #f5f5f5;
   height: 100vh;
-  background-color: lightskyblue;
-  background-size: cover;
+  box-sizing: border-box;
 }
 
-.logo-area {
-  margin-top: -300rpx;
-  margin-bottom: 50rpx;
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8rpx 0;
 }
 
-.logo {
-  height: 200rpx;
-  width: 200rpx;
-}
-
-.text-area {
-  margin-bottom: 50rpx;
+.back-icon, .menu-icon {
+  width: 48rpx;
+  height: 48rpx;
+  background-color: #f5f5f5; /* Placeholder for icons */
 }
 
 .title {
   font-size: 36rpx;
-  color: #ffffff;
+  font-weight: bold;
 }
 
-.form-area {
+.temperature-section {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  align-items: center;
+  margin: 32rpx 0;
 }
 
-.input {
-  margin-bottom: 20rpx;
-  padding: 20rpx;
-  border: 1px solid #ddd;
-  border-radius: 10rpx;
-  font-size: 30rpx;
+.temperature {
+  font-size: 192rpx;
+  font-weight: bold;
 }
 
-.login-button {
-  margin-top: 30rpx;
-  padding: 20rpx;
-  background-color: #4CAF50;
+.degree-symbol {
+  font-size: 72rpx;
+}
+
+.mode {
+  display: flex;
+  align-items: center;
+  margin-top: 16rpx;
+}
+
+.mode-icon {
+  width: 48rpx;
+  height: 48rpx;
+  background-color: #ccc; /* Placeholder for icons */
+  margin-right: 16rpx;
+}
+
+.status-section {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin: 32rpx 0;
+}
+
+.status-item {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.control-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #fff; /* White background for control section */
+  flex-grow: 1;
+  padding-bottom: 16rpx; /* Add padding to bottom */
+  box-sizing: border-box;
+  border-top: 1rpx solid #f5f5f5; /* Add a border to separate from the above section */
+}
+
+.control-row {
+  display: flex;
+  justify-content: space-around;
+  height: 128rpx;
+  align-items: center;
+  border-bottom: 1rpx solid #F1F1F1; /* Add bottom border to create lines between rows */
+}
+
+.control-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #fff;
+  font-size: 28rpx;
+  color: #333;
+  flex: 1;
+  border-right: 1rpx solid #F1F1F1; /* Add right border */
+}
+
+.temperature-text{
+  font-size: 28rpx;
+  color: #333;
+}
+
+.control-item:last-child {
+  border-right: none; /* Remove right border for the last item in the row */
+}
+
+.control-item.power {
+  background-color: #F1F1F1;
   color: #fff;
-  font-size: 36rpx;
-  text-align: center;
-  border-radius: 10rpx;
+}
+
+.control-icon {
+  width: 48rpx;
+  height: 48rpx;
+  background-color: #ccc; /* Placeholder for icons */
+}
+
+.power-icon {
+  background-color: green; /* Placeholder for power icon */
+}
+
+.temperature-adjust {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 96rpx;
+  background-color: #fff;
+  border-bottom: 1rpx solid #F1F1F1; /* Add border to bottom */
+  border-right: 1rpx solid #F1F1F1; /* Add border to right */
+}
+
+.adjust-icon {
+  width: 48rpx;
+  height: 48rpx;
+  background-color: #ccc; /* Placeholder for icons */
+}
+
+.minus-icon {
+  background-color: red; /* Placeholder for minus icon */
+}
+
+.plus-icon {
+  background-color: blue; /* Placeholder for plus icon */
+}
+.send-command {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120rpx;
+  background-color: #fff;
+  margin-top: 16rpx;
+}
+
+.send-button {
+  width: 90%;
+  height: 80%;
+  background-color: #409EFF; /* Blue color for button */
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: bold;
+  border-radius: 12rpx;
+  border: none;
+}
+.send-button:active {
+  background-color: #66B1FF; /* 按钮点击时变浅的颜色 */
 }
 </style>
