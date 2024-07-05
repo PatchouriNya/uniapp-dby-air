@@ -185,8 +185,8 @@ const changeElectric = () => {
   else if (air.value.electrify_state === '断电')
     {
       air.value.electrify_state = '通电'
-      if (air.value.power_state === '开机')
-        powerStyle.value.opacity = 1
+      powerStyle.value.opacity = 1
+      air.value.power_state = '开机'
       powerDisabled.value = false
       isElectricDisabled.value = false
     }
