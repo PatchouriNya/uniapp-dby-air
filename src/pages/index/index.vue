@@ -25,9 +25,9 @@ getData()
 
 <style scoped>
 .container {
-  padding: 20rpx;
   background-color: #f5f5f5;
   height: 100vh;
+  padding: 20rpx 20rpx 0;
 }
 
 .full-card {
