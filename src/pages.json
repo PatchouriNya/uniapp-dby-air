@@ -57,14 +57,20 @@
     "list": [
       {
         "pagePath": "pages/index/index",
+        "iconPath": "static/index-normal.png",
+        "selectedIconPath": "static/index-selected.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/air/index",
+        "iconPath": "static/air-normal.png",
+        "selectedIconPath": "static/air-selected.png",
         "text": "空调"
       },
       {
         "pagePath": "pages/my/my",
+        "iconPath": "static/company-normal.png",
+        "selectedIconPath": "static/company-selected.png",
         "text": "我的"
       }
     ],
