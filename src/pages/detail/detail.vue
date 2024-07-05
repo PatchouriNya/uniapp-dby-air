@@ -56,15 +56,14 @@
         <view class="control-item btn-disabled">...</view>
       </view>
       <view class="send-command">
-        <button class="send-button">发送指令</button>
+        <button class="send-button" @tap="sendCommand" @click="sendCommand">发送指令</button>
       </view>
     </view>
   </view>
 </template>
 
-
 <script setup>
-import {ref, watch, watchEffect} from 'vue'
+import {ref} from 'vue'
 import {http} from '../../utils/http'
 import {onLoad} from '@dcloudio/uni-app'
 const air = ref({
@@ -90,12 +89,12 @@ const air = ref({
         is_grouped: 0,
         clientname: "发改委南京项目溧水税务局"
 })
-// 改模式
-const currentMode = ref({ text: air.value.wind_speed, icon: '', color: '' })
+// 设置模式
+const currentMode = ref({ text: air.value.operation_mode, icon: '', color: '' })
 const modes = [
   { text: '制冷', icon: '../../static/cold_mode.png', color: '#409EFF' },
   { text: '制热', icon: '../../static/hot_mode.png', color: '#e11d48' },
-  { text: '通风', icon: '../../static/wind_mode.png', color: '#000000' },
+  { text: '送风', icon: '../../static/wind_mode.png', color: '#000000' },
   { text: '除湿', icon: '../../static/nowater_mode.png', color: '#000000' }
 ]
 const modeIndex = ref(0)
@@ -103,10 +102,9 @@ const changeMode = () => {
   modeIndex.value = (modeIndex.value + 1) % modes.length
   currentMode.value = modes[modeIndex.value]
   air.value.operation_mode = currentMode.value.text
-  console.log(air.value.operation_mode)
 }
 
-// 改状态
+// 设置状态
 const powerStyle = ref({opacity: 0})
 const changePower = () => {
   if (powerStyle.value.opacity === 0){
@@ -133,7 +131,6 @@ const decreaseTemperature = () => {
 }
 
 // 设置风速
-// 改模式
 const currentWindSpeed = ref({ text: '', icon: '../../static/wind_speed_auto.png'})
 const windSpeeds = [
   { text: '自动', icon: '../../static/wind_speed_auto.png' },
@@ -174,27 +171,31 @@ const changeWindMode = () => {
   air.value.wind_mode = currentWindMode.value.text
 }
 
-// 断通电
+// 设置断通电
 const isElectricDisabled = ref(false)
 const changeElectric = () => {
   if (air.value.electrify_state === '通电')
     {
       air.value.electrify_state = '断电'
       powerStyle.value.opacity = 0
-      air.value.power_state = "关机"
+      air.value.power_state = '关机'
       powerDisabled.value = true
       isElectricDisabled.value = true
     }
   else if (air.value.electrify_state === '断电')
     {
       air.value.electrify_state = '通电'
-      powerStyle.value.opacity = 1
+      if (air.value.power_state === '开机')
+        powerStyle.value.opacity = 1
       powerDisabled.value = false
       isElectricDisabled.value = false
     }
 }
 
+// 获取路由参数
 const query = defineProps({id:Number})
+
+// 获取空调数据
 const getAirDetail = async () => {
   const res = await http({
     method: 'GET',
@@ -208,7 +209,7 @@ const getAirDetail = async () => {
     modeIndex.value = 0
   else if (air.value.operation_mode === '制热')
     modeIndex.value = 1
-  else if (air.value.operation_mode === '通风')
+  else if (air.value.operation_mode === '送风')
     modeIndex.value = 2
   else if (air.value.operation_mode === '除湿')
     modeIndex.value = 3
@@ -245,8 +246,36 @@ const getAirDetail = async () => {
   }
 }
 
+// 确认发送请求改数据
+const sendCommand = async () => {
+  const res = await http({
+    method: 'PUT',
+    url: '/api/dby/air/' + query.id,
+    data:{
+      set_temperature: air.value.set_temperature+'℃',
+      operation_mode: air.value.operation_mode,
+      wind_speed: air.value.wind_speed,
+      wind_mode: air.value.wind_mode,
+      electrify_state: air.value.electrify_state,
+      power_state: air.value.power_state
+    }
+  })
+  if (res.code === 201){
+    uni.showToast({
+      title: '发送指令成功！',
+      icon: 'success',
+      duration: 2000
+    })
+  }else {
+    uni.showToast({
+      title: res.msg,
+      icon: 'error',
+      duration: 2000
+    })
+  }
+}
 
-
+// 页面加载完成后获取空调数据
 onLoad(() => {
   getAirDetail()
 })
