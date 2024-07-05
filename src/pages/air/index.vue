@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <view class="card" v-for="(airConditioner) in airConditioners" :key="airConditioner.id">
+    <view class="card" v-for="(airConditioner) in airConditioners" :key="airConditioner.id" @tap="gotoDetail(airConditioner.id)" @click="gotoDetail(airConditioner.id)">
       <image v-if="regex1.test(airConditioner.air_brand)" class="icon" src="/static/guaji.png"></image>
       <image v-else class="icon" src="/static/guiji.png"></image>
       <text class="name">{{ airConditioner.designation }}</text>
@@ -14,6 +14,7 @@
 <script setup>
 import { ref } from 'vue'
 import {http} from '../../utils/http'
+
 const airConditioners = ref()
 const regex1 = /挂机/
 const getAirData = async ()=>{
@@ -21,13 +22,18 @@ const getAirData = async ()=>{
     method: 'GET',
     url:'/api/dby/airs/1?size=99999',
   })
-  console.log(res)
+
   if (res.code === 200)
     airConditioners.value = res.data.data
-  console.log(airConditioners.value)
+
 }
 getAirData()
 
+const gotoDetail = (id) => {
+  uni.navigateTo({
+    url:'/pages/detail/detail?id=' + id
+  })
+}
 </script>
 
 

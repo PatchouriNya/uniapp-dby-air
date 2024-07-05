@@ -6,11 +6,15 @@
       <view class="menu-icon"></view>
     </view>
     <view class="temperature-section">
-      <text class="temperature">24</text>
-      <text class="degree-symbol">℃</text>
-      <view class="mode">
-        <view class="mode-icon"></view>
-        <text>制冷</text>
+      <view class="temperature-display">
+        <text class="temperature">24</text>
+        <view class="degree-and-mode">
+          <text class="degree-symbol">℃</text>
+          <view class="mode">
+            <img class="mode-icon" src="../../static/cold_mode.png" alt="">
+            <text>制冷</text>
+          </view>
+        </view>
       </view>
     </view>
     <view class="status-section">
@@ -23,7 +27,7 @@
         <view class="control-item power" hover-class="bg-click" hover-stay-time="50">
           <img class="power-icon" src="../../static/power_btn.png" alt="">
         </view>
-        <view class="control-item" hover-class="bg-click" hover-stay-time="50" @tap="" @click="">模式</view>
+        <view class="control-item" hover-class="bg-click" hover-stay-time="50">模式</view>
       </view>
       <view class="control-row">
         <view class="control-item" hover-class="bg-click" hover-stay-time="50">风速</view>
@@ -47,13 +51,12 @@
   </view>
 </template>
 
+
 <script setup>
 
 </script>
 
-<style>
-
-
+<style scoped>
 .container {
   display: flex;
   flex-direction: column;
@@ -89,9 +92,22 @@
   margin: 32rpx 0;
 }
 
+.temperature-display {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .temperature {
   font-size: 192rpx;
   font-weight: bold;
+}
+
+.degree-and-mode {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 16rpx; /* Adjust the margin as needed */
 }
 
 .degree-symbol {
@@ -101,14 +117,13 @@
 .mode {
   display: flex;
   align-items: center;
-  margin-top: 16rpx;
+  margin-top: 8rpx;
 }
 
 .mode-icon {
-  width: 48rpx;
-  height: 48rpx;
-  background-color: #ccc; /* Placeholder for icons */
-  margin-right: 16rpx;
+  width: 32rpx;
+  height: 32rpx;
+  margin-right: 8rpx;
 }
 
 .status-section {
@@ -132,12 +147,13 @@
   padding-bottom: 16rpx; /* Add padding to bottom */
   box-sizing: border-box;
   border-top: 1rpx solid #f5f5f5; /* Add a border to separate from the above section */
+  overflow: hidden;
 }
 
 .control-row {
   display: flex;
   justify-content: space-around;
-  height: 128rpx;
+  height: 172rpx;
   align-items: center;
   border-bottom: 1rpx solid #F1F1F1; /* Add bottom border to create lines between rows */
 }
@@ -152,11 +168,7 @@
   color: #333;
   flex: 1;
   border-right: 1rpx solid #F1F1F1; /* Add right border */
-}
-
-.temperature-text{
-  font-size: 28rpx;
-  color: #333;
+  overflow: hidden; /* Hide the scrollbar */
 }
 
 .control-item:last-child {
@@ -166,23 +178,14 @@
 .control-item.power {
   color: #fff;
 }
+
 .control-item.clicked {
   background-color: #4cd964;
 }
 
-
 .power-icon {
   width: 32rpx;
   height: 32rpx;
-}
-
-.temperature-adjust {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 96rpx;
-  background-color: #fff;
-  border-bottom: 1rpx solid #F1F1F1; /* Add border to bottom */
-  border-right: 1rpx solid #F1F1F1; /* Add border to right */
 }
 
 .adjust-icon {
@@ -200,6 +203,7 @@
   background-color: white; /* Placeholder for plus icon */
   border-left: none;
 }
+
 .send-command {
   display: flex;
   justify-content: center;
@@ -211,7 +215,7 @@
 
 .send-button {
   width: 90%;
-  height: 80%;
+  height: 70%;
   background-color: #409EFF; /* Blue color for button */
   color: #fff;
   font-size: 32rpx;
@@ -225,7 +229,7 @@
 .btn-disabled {
   color: #999;
 }
-.bg-click{
-  background:#fafafa;
+.bg-click {
+  background: #fafafa;
 }
 </style>
