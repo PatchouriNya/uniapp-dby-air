@@ -48,8 +48,8 @@ const login = async () => {
     uni.switchTab({url: '/pages/my/my'})
   } else {
     uni.showToast({
-      title: res.msg,
-      icon: "none",
+      title: '账号或密码错误',
+      icon: "error",
     })
   }
 };
@@ -62,7 +62,8 @@ const login = async () => {
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-color: #f5f5f5;
+  background: linear-gradient(135deg, #6ec1e4, #6ec1e4 50%, #409eff 50%);
+  padding: 20rpx;
 }
 
 .logo {
@@ -72,12 +73,26 @@ const login = async () => {
 
 .form-container {
   width: 80%;
+  background-color: #fff;
+  padding: 40rpx 20rpx;
+  border-radius: 10rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
 }
 
 .login-input {
-  margin-bottom: 17rpx;
+  display: block;
+  margin-bottom: 20rpx;
+  border-radius: 5rpx;
 }
+
 .login-btn {
   width: 100%;
+  background-color: #409EFF;
+  color: #fff;
+  border: none;
+  border-radius: 5rpx;
+  padding: 20rpx;
+  font-size: 22rpx;
+  margin-top: 20rpx; /* 增加按钮与输入框之间的间距 */
 }
 </style>
