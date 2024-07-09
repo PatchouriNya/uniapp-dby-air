@@ -22,9 +22,9 @@
       }
     },
     {
-      "path": "pages/my/my",
+      "path": "pages/company/company",
       "style": {
-        "navigationBarTitleText": "我的",
+        "navigationBarTitleText": "单位",
         "enablePullDownRefresh": false
       }
     },
@@ -68,7 +68,7 @@
         "text": "空调"
       },
       {
-        "pagePath": "pages/my/my",
+        "pagePath": "pages/company/company",
         "iconPath": "static/company-normal.png",
         "selectedIconPath": "static/company-selected.png",
         "text": "单位"

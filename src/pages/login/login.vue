@@ -45,7 +45,7 @@ const login = async () => {
       icon: "success",
     })
     memberStore.setProfile({id:res.data.id,username: username.value})
-    uni.switchTab({url: '/pages/my/my'})
+    uni.switchTab({url: '/pages/company/company'})
   } else {
     uni.showToast({
       title: '账号或密码错误',
