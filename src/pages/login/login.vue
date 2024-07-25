@@ -30,7 +30,7 @@ const username = ref("")
 const password = ref("")
 
 const login = async () => {
-  const res = await http({
+  let res = await http({
     method: 'POST',
     url:'/api/dby/login',
     data: {
@@ -44,7 +44,11 @@ const login = async () => {
       title: res.msg,
       icon: "success",
     })
-    memberStore.setProfile({id:res.data.id,username: username.value})
+    res = await http({
+      method: 'GET',
+      url:'/api/dby/account/' + res.data.id,
+    })
+    memberStore.setProfile({id:res.data.id,nickname: res.data.nickname})
     uni.switchTab({url: '/pages/company/company'})
   } else {
     uni.showToast({

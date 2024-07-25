@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <view class="full-card">
-      <text class="title">东佰源空调集控系统</text>
+      <text class="title">兆润空调集控系统</text>
     </view>
     <view class="company-card">
       <text class="company-info">{{ info }}</text>

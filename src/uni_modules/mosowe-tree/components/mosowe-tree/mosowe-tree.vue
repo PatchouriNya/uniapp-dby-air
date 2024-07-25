@@ -652,7 +652,7 @@
       flex: 1;
     }
     .default-label{
-      font-size: 26rpx;
+      font-size: 40rpx;
       line-height: var(--mosowe-tree_item_height);
     }
   }

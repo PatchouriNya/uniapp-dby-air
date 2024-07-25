@@ -1,46 +1,81 @@
 <template>
   <view class="container">
+    <view >
+      <view class="title">{{ title }}</view>
+    </view> <!-- 添加的标题视图 -->
+    <view v-if="!isLogin" class="no-data">
+      <button class="center-button btn" @tap="gotoLogin" @click="gotoLogin">登录</button>
+    </view>
     <mosowe-tree
+        v-if="isLogin"
         ref="mosoweTreeRef"
         v-model="checkValues"
         :data="treeList"
         label="clientname"
         value="id"
-        height="100vh"
+        height="85vh"
         children="childs"
-        :default-expanded-keys="[10]"
+        :default-expanded-keys="defaultExpandedKeys"
         :check-on-click-node="true"
         @nodeClick="nodeClick"></mosowe-tree>
-    <view class="buttons">
-      <mosowe-button @click="getHalf">获取半选</mosowe-button>
-      <mosowe-button @click="getCheckedNodes">获取已选节点数据</mosowe-button>
-      <mosowe-button @click="setCheckedKeys">设置节点已选</mosowe-button>
-      <mosowe-button @click="setCheckedKeysNone">设置节点未选</mosowe-button>
-    </view>
-    <view class="search">
-      <mosowe-text>搜索：</mosowe-text>
-      <input class="input" placeholder="请输入" v-model="searchKey" />
-      <mosowe-button @click="search">搜索</mosowe-button>
-    </view>
+    <button v-if="isLogin" class="btn2" @click="logout">切换用户</button>
+
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import { http } from '../../utils/http'
-const treeList = ref([])
+import {useClientStore} from '../../stores/modules/client'
+import {useMemberStore} from '../../stores'
 
+import {onShow} from "@dcloudio/uni-app";
+const clientStore = useClientStore()
+const memberStore = useMemberStore()
+const isLogin = ref(false)
+const title = ref('请登录后查看')
+const treeList = ref([])
+const defaultExpandedKeys = ref([])
 const getTreeList = async () => {
   const res = await http({
     method: 'GET',
-    url: '/api/dby/client/list/11'
+    url: '/api/dby/client/list/' + memberStore.profile.id
   })
-  treeList.value.push(res.data)
-  console.log(res.data)
+  if (res.code === 200) {
+    treeList.value = [res.data]
+    defaultExpandedKeys.value.push(res.data.id)
+  }else {
+    await uni.showToast({
+      title: '获取数据失败',
+      icon: 'error',
+      duration: 2000
+    })
+  }
 }
-getTreeList()
+onShow(()=>{
+  if (memberStore.profile.id){
+    isLogin.value = true
+    title.value = '欢迎，' + memberStore.profile.nickname
+    getTreeList()
+  }
+})
 const mosoweTreeRef = ref<any>(null)
-
+const gotoLogin = () => {
+  uni.navigateTo({
+    url: '/pages/login/login'
+  })
+}
+const logout = () => {
+  isLogin.value = false
+  title.value = '请登录后查看'
+  defaultExpandedKeys.value = []
+  treeList.value = []
+  memberStore.clearProfile()
+  clientStore.clearClient()
+  uni.navigateTo({
+    url: '/pages/login/login'
+  })
+}
 // 获取半选
 const getHalf = () => {
   console.log(mosoweTreeRef.value.getHalfCheck())
@@ -63,7 +98,19 @@ const setCheckedKeysNone = () => {
 
 // 节点点击
 const nodeClick = (item: any) => {
-  console.log(item)
+  if (item.type === 1)
+  {
+    clientStore.setClient({id: item.id,name: item.clientname})
+/*    uni.showToast({
+      title:'选择了' + item.clientname,
+      icon: 'none',
+      duration: 2000
+    })*/
+    defaultExpandedKeys.value.push(item.id)
+    uni.switchTab({
+      url:'/pages/air/index'
+    })
+  }
 }
 
 // filter筛选
@@ -94,16 +141,50 @@ watch(
   box-sizing: border-box;
 }
 
-.buttons {
-  margin: 10rpx 0;
+.title {
+  width: 100%;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
 }
 
-.input {
+.no-data {
   width: 100%;
-  height: 80rpx;
-  margin: 10rpx 0;
-  border: 1px solid #999;
-  border-radius: 6rpx;
-  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+
+.center-button {
+  font-size: 28rpx;
+  padding: 10rpx 20rpx;
+  background-color: #007AFF;
+  color: #fff;
+  border: none;
+  border-radius: 5rpx;
+}
+
+.btn {
+  background-color: #409EFF; /* Blue color for button */
+  color: #fff;
+  font-size: 28rpx;
+  border-radius: 12rpx;
+  border: none;
+  width: 70%;
+}
+.btn:active {
+  background-color: #66B1FF; /* 按钮点击时变浅的颜色 */
+}
+.btn2 {
+  background-color: #e11d48;
+  color: #fff;
+  font-size: 28rpx;
+  border-radius: 12rpx;
+  border: none;
+  width: 70%;
+}
+.btn2:active {
+  background-color: #f87171; /* 按钮点击时变浅的颜色 */
 }
 </style>

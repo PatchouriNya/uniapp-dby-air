@@ -3,7 +3,7 @@ import {defineStore} from 'pinia'
 export const useMemberStore = defineStore('member',()=>{
     // 会员信息
     const profile = ref()
-
+    
     // 保存会员信息，登陆时可用
     const setProfile = (val)=>{
         profile.value = val
@@ -16,7 +16,7 @@ export const useMemberStore = defineStore('member',()=>{
 
         profile,
         setProfile,
-        clearProfile,
+        clearProfile
      }
     },
     {
