@@ -78,12 +78,12 @@ const logout = () => {
 }
 // 获取半选
 const getHalf = () => {
-  console.log(mosoweTreeRef.value.getHalfCheck())
+  // console.log(mosoweTreeRef.value.getHalfCheck())
 }
 
 // 获取已选节点的数据
 const getCheckedNodes = () => {
-  console.log(mosoweTreeRef.value.getCheckedNodes())
+  // console.log(mosoweTreeRef.value.getCheckedNodes())
 }
 
 // 设置节点已选
@@ -97,18 +97,43 @@ const setCheckedKeysNone = () => {
 }
 
 // 节点点击
-const nodeClick = (item: any) => {
-  if (item.type === 1)
-  {
-    clientStore.setClient({id: item.id,name: item.clientname})
-/*    uni.showToast({
-      title:'选择了' + item.clientname,
-      icon: 'none',
-      duration: 2000
-    })*/
-    defaultExpandedKeys.value.push(item.id)
-    uni.switchTab({
-      url:'/pages/air/index'
+const nodeClick = async (item: any) => {
+  if (item.type === 1) {
+    // 显示模态框
+    uni.showModal({
+      title: '确认操作',
+      content: '确定要读取数据吗？',
+      confirmText: '是',  // 修改确认按钮的名称
+      cancelText: '否',   // 修改取消按钮的名称
+      success: async (res) => {
+        if (res.confirm) {
+          // 用户点击确定，执行原有逻辑
+          clientStore.setClient({id: item.id, name: item.clientname})
+          defaultExpandedKeys.value.push(item.id)
+          uni.showLoading({
+            title: '读取数据中...'
+          })
+          const res = await http({
+            method: 'GET',
+            url: 'http://47.103.60.199:1110/api/dby/air-latest/' + item.id
+          })
+          uni.hideLoading()
+          uni.switchTab({
+            url: '/pages/air/index'
+          })
+          await uni.showToast({
+            title: res.msg,
+            icon: 'none',
+            duration: 2000
+          })
+        } else if (res.cancel) {
+          clientStore.setClient({id: item.id, name: item.clientname})
+          defaultExpandedKeys.value.push(item.id)
+          uni.switchTab({
+            url: '/pages/air/index'
+          })
+        }
+      }
     })
   }
 }
@@ -123,7 +148,7 @@ const checkValues = ref([])
 watch(
     () => checkValues.value,
     () => {
-      console.log(checkValues.value)
+      // console.log(checkValues.value)
     },
     {
       deep: true

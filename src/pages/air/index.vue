@@ -4,11 +4,17 @@
     <view v-if="!isSelected" class="no-data">
       <button class="center-button btn" @tap="gotoChoose" @click="gotoChoose">选择单位</button>
     </view>
-    <view class="card" v-if="isSelected" v-for="(airConditioner) in airConditioners" :key="airConditioner.id" @tap="gotoDetail(airConditioner.id)" @click="gotoDetail(airConditioner.id)">
+    <view class="card"  v-if="isSelected" v-for="(airConditioner) in airConditioners" :key="airConditioner.id" @tap="gotoDetail(airConditioner.id)" @click="gotoDetail(airConditioner.id) ">
+      <text class="show-id">{{ airConditioner.show_id }}</text>
+      <text class="temp">{{ airConditioner.set_temperature }}</text>
+      <text class="mode">{{ airConditioner.operation_mode }}</text>
+      <text class="wind">{{ airConditioner.wind_speed }}</text>
       <image v-if="regex1.test(airConditioner.air_brand)" class="icon" src="/static/guaji.png"></image>
       <image v-else class="icon" src="/static/guiji.png"></image>
-      <text class="name">{{ airConditioner.designation }}</text>
+      <text class="name" :style="{ color: airConditioner.power_state === '开机' ? '#409EFF' : '#FB6E6E' }">{{ airConditioner.designation }}</text>
       <text class="brand">{{ airConditioner.air_brand }}</text>
+<!--      <text class="brand" :style="{ color: airConditioner.power_state === '开机' ? '#d4f1d7' : '#f8d7da' }">{{ airConditioner.power_state }}</text>-->
+
     </view>
   </view>
 </template>
@@ -95,6 +101,7 @@ const gotoDetail = (id) => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
   flex-basis: 43%;
   max-width: 100%;
   background-color: #fff;
@@ -102,6 +109,46 @@ const gotoDetail = (id) => {
   padding: 20rpx;
   border-radius: 10rpx;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.show-id {
+  position: absolute;
+  top: 10rpx;
+  left: 10rpx;
+  font-size: 20rpx;
+  color: #333;
+  padding: 2rpx 6rpx;
+  border-radius: 4rpx;
+}
+
+.temp {
+  position: absolute;
+  top: 10rpx;
+  right: 10rpx;
+  font-size: 20rpx;
+  color: #333;
+  padding: 2rpx 6rpx;
+  border-radius: 4rpx;
+}
+
+.mode {
+  position: absolute;
+  bottom: 10rpx;
+  left: 10rpx;
+  font-size: 20rpx;
+  color: #333;
+  padding: 2rpx 6rpx;
+  border-radius: 4rpx;
+}
+
+.wind {
+  position: absolute;
+  bottom: 10rpx;
+  right: 10rpx;
+  font-size: 20rpx;
+  color: #333;
+  padding: 2rpx 6rpx;
+  border-radius: 4rpx;
 }
 
 .icon {
@@ -121,6 +168,7 @@ const gotoDetail = (id) => {
   font-size: 28rpx;
   color: #888;
 }
+
 .btn {
   background-color: #409EFF; /* Blue color for button */
   color: #fff;
@@ -128,6 +176,7 @@ const gotoDetail = (id) => {
   border-radius: 12rpx;
   border: none;
 }
+
 .btn:active {
   background-color: #66B1FF; /* 按钮点击时变浅的颜色 */
 }

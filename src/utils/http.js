@@ -6,7 +6,7 @@ const httpInterceptor = {
         if (!options.url.startsWith('http')){
             options.url = baseURL+options.url
         }
-        options.timeout = 10000
+        options.timeout = 100000
         options.header = {
             'source-client':'miniapp'
         }

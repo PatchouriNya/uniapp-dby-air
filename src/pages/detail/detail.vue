@@ -2,7 +2,7 @@
   <view class="container">
     <view class="header">
       <view class="back-icon"></view>
-      <view class="title">{{ air.designation }}</view>
+      <view class="title" @click="showEditNameModal" @tap="showEditNameModal">{{ air.designation }}</view>
       <view class="menu-icon"></view>
     </view>
     <view class="temperature-section" :style="{color:currentMode.color,opacity:powerStyle.opacity}">
@@ -46,18 +46,19 @@
       <view v-if="air.electrify_state === null || air.electrify_state === ''" class="control-row">
         <view class="control-item btn-disabled">定时</view>
         <view class="control-item btn-disabled">睡眠</view>
-        <view class="control-item btn-disabled">...</view>
+        <view class="control-item send"  @tap="sendCommand" @click="sendCommand">发送</view>
+<!--        <view class="control-item btn-disabled">...</view>-->
       </view>
       <view v-else class="control-row">
         <view v-if="isElectricDisabled === false" class="control-item" hover-class="bg-click" hover-stay-time="50" @tap="changeElectric" @click="changeElectric">断电</view>
         <view v-else class="control-item btn-disabled">断电</view>
         <view v-if="isElectricDisabled === true" class="control-item" hover-class="bg-click" hover-stay-time="50"  @tap="changeElectric" @click="changeElectric">通电</view>
         <view v-else class="control-item btn-disabled">通电</view>
-        <view class="control-item btn-disabled">...</view>
+        <view class="control-item send"  @tap="sendCommand" @click="sendCommand">发送</view>
       </view>
-      <view class="send-command">
+<!--      <view class="send-command">
         <button class="send-button" @tap="sendCommand" @click="sendCommand">发送指令</button>
-      </view>
+      </view>-->
     </view>
   </view>
 </template>
@@ -120,13 +121,17 @@ const powerDisabled = ref( false)
 
 // 设置温度
 const increaseTemperature = () => {
-  if (air.value.set_temperature < 30) {
+  if (air.value.set_temperature >= 16 && air.value.set_temperature < 32) {
     air.value.set_temperature += 1
+  }else{
+    air.value.set_temperature = 16
   }
 }
 const decreaseTemperature = () => {
-  if (air.value.set_temperature > 16) {
+  if (air.value.set_temperature > 16 && air.value.set_temperature <= 32) {
     air.value.set_temperature -= 1
+  }else{
+    air.value.set_temperature = 16
   }
 }
 
@@ -204,6 +209,7 @@ const getAirDetail = async () => {
   air.value = res.data
   air.value.set_temperature = parseInt(air.value.set_temperature)
 
+
   // 设置初始模式
   if (air.value.operation_mode === '制冷')
     modeIndex.value = 0
@@ -213,6 +219,11 @@ const getAirDetail = async () => {
     modeIndex.value = 2
   else if (air.value.operation_mode === '除湿')
     modeIndex.value = 3
+  else
+  {
+    air.value.operation_mode = '制冷'
+    modeIndex.value = 0
+  }
   currentMode.value = modes[modeIndex.value]
 
   // 设置初始状态
@@ -230,6 +241,10 @@ const getAirDetail = async () => {
     windSpeedIndex.value = 3
   else if (air.value.wind_speed === '自动')
     windSpeedIndex.value = 0
+  else{
+    air.value.wind_speed = '高风'
+    windSpeedIndex.value = 3
+  }
   currentWindSpeed.value = windSpeeds[windSpeedIndex.value]
 
   // 设置初始风模式
@@ -249,10 +264,11 @@ const getAirDetail = async () => {
 // 确认发送请求改数据
 const sendCommand = async () => {
   const res = await http({
-    method: 'PUT',
-    url: '/api/dby/air/' + query.id,
+    method: 'POST',
+    url: 'http://47.103.60.199:1110/api/dby/air-control/' + air.value.client_id,
     data:{
-      set_temperature: air.value.set_temperature+'℃',
+      air_id:air.value.show_id,
+      set_temperature: air.value.set_temperature,
       operation_mode: air.value.operation_mode,
       wind_speed: air.value.wind_speed,
       wind_mode: air.value.wind_mode,
@@ -278,7 +294,37 @@ const sendCommand = async () => {
 // 页面加载完成后获取空调数据
 onLoad(() => {
   getAirDetail()
+  console.log(air.value)
 })
+
+// 显示编辑名称的模态框
+const showEditNameModal = () => {
+  uni.showModal({
+    title: '编辑名称',
+    editable: true,
+    placeholderText: air.value.designation || '请输入新名称',
+    content: air.value.designation,
+    success: async function (res) {
+      if (res.confirm) {
+        const response = await http({
+          method: 'PUT',
+          url: '/api/dby/air/' + air.value.id,
+          data: {
+            designation: res.content
+          }
+        })
+        if (response.code === 201) {
+          uni.showToast({
+            title: '修改成功！',
+            icon: 'success',
+            duration: 2000
+          })
+          air.value.designation = res.content
+        }
+      }
+    }
+  })
+}
 </script>
 
 <style scoped>
@@ -381,7 +427,8 @@ onLoad(() => {
 .control-row {
   display: flex;
   justify-content: space-around;
-  height: 172rpx;
+  /*height: 172rpx;*/
+  height: 100%;
   align-items: center;
   border-bottom: 1rpx solid #F1F1F1; /* Add bottom border to create lines between rows */
 }
@@ -398,6 +445,15 @@ onLoad(() => {
   border-right: 1rpx solid #F1F1F1; /* Add right border */
   overflow: hidden; /* Hide the scrollbar */
 }
+.send{
+  background-color: #409EFF;
+  color: #fff;
+}
+
+.send:active{
+  background-color: #66B1FF;
+}
+
 
 .control-item:last-child {
   border-right: none; /* Remove right border for the last item in the row */
