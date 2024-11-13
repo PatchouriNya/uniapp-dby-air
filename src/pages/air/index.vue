@@ -1,6 +1,6 @@
 <template>
   <view class="content">
-    <view class="title">{{ title }}</view> <!-- 添加的标题视图 -->
+    <view class="title" @longpress="gotoControlRange">{{ title }}</view> <!-- 添加的标题视图 -->
     <view v-if="!isSelected" class="no-data">
       <button class="center-button btn" @tap="gotoChoose" @click="gotoChoose">选择单位</button>
     </view>
@@ -12,11 +12,12 @@
       <image v-if="regex1.test(airConditioner.air_brand)" class="icon" src="/static/guaji.png"></image>
       <image v-else class="icon" src="/static/guiji.png"></image>
       <text class="name" :style="{ color: airConditioner.power_state === '开机' ? '#409EFF' : '#FB6E6E' }">{{ airConditioner.designation }}</text>
-      <text class="brand">{{ airConditioner.air_brand }}</text>
+      <text class="brand">{{ airConditioner.air_brand? airConditioner.air_brand : '　　　　' }}</text>
 <!--      <text class="brand" :style="{ color: airConditioner.power_state === '开机' ? '#d4f1d7' : '#f8d7da' }">{{ airConditioner.power_state }}</text>-->
 
     </view>
   </view>
+
 </template>
 
 <script setup>
@@ -60,6 +61,45 @@ const gotoChoose = () => {
 const gotoDetail = (id) => {
   uni.navigateTo({
     url: '/pages/detail/detail?id=' + id
+  })
+}
+
+const gotoControlRange = () => {
+  uni.showModal({
+    title: '以x-30℃为周期控制范围内空调',
+    content: '',
+    editable:true,//是否显示输入框
+    placeholderText:'起始-结束-温度 例:6-12-16',//输入框提示内容
+    confirmText: '确认',
+    cancelText: '取消',
+    success: async (res) => {
+      if (res.confirm) {
+        let str = res.content.split('-')
+        // 提取每个元素中的数字
+        str = str.map(part => {
+          const match = part.match(/\d+/);
+          return match ? parseInt(match[0]) : null // 如果没有数字，返回 null
+        })
+        if (str[2] < 16 || str[2] > 30) {
+          uni.showToast({
+            title: '请输入16-30之间的温度',
+            icon: 'none',
+            duration: 2000
+          })
+          setTimeout(gotoControlRange, 500) // 重新显示模态框
+        }
+        const result = await http({
+          method: 'POST',
+          url: '/api/dby/serial/control-air-range?client_id=' + clientStore.client.id + '&start_number=' + str[0] + '&end_number=' + str[1] + '&min_temperature=' + str[2],
+        })
+        await getAirData()
+        uni.showToast({
+          title: result.msg,
+          icon: 'none',
+          duration: 2000
+        })
+      }
+    }
   })
 }
 </script>

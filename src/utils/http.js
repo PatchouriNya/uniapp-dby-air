@@ -36,7 +36,7 @@ export const http = (options)=>{
                 }else {
                     uni.showToast({
                         icon:'none',
-                        title:res.data.msg || '请求错误'
+                        title:res.data.msg || '请求超时,请重试'
                     })
                     reject(res)
                 }

@@ -114,18 +114,24 @@ const nodeClick = async (item: any) => {
             title: '读取数据中...'
           })
           const res = await http({
-            method: 'GET',
-            url: 'http://47.103.60.199:1110/api/dby/air-latest/' + item.id
+            method: 'POST',
+            url: '/api/dby/serial',
+            data: {
+              client_id: item.id
+            }
           })
           uni.hideLoading()
           uni.switchTab({
-            url: '/pages/air/index'
+            url: '/pages/air/index',
+            success() {
+              uni.showToast({
+                title: res.msg,
+                icon: 'none',
+                duration: 2000
+              })
+            },
           })
-          await uni.showToast({
-            title: res.msg,
-            icon: 'none',
-            duration: 2000
-          })
+
         } else if (res.cancel) {
           clientStore.setClient({id: item.id, name: item.clientname})
           defaultExpandedKeys.value.push(item.id)

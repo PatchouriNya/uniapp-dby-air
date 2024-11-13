@@ -265,8 +265,9 @@ const getAirDetail = async () => {
 const sendCommand = async () => {
   const res = await http({
     method: 'POST',
-    url: 'http://47.103.60.199:1110/api/dby/air-control/' + air.value.client_id,
+    url: 'http://106.14.160.207/api/dby/serial/control-air',
     data:{
+      client_id: air.value.client_id,
       air_id:air.value.show_id,
       set_temperature: air.value.set_temperature,
       operation_mode: air.value.operation_mode,
@@ -276,7 +277,7 @@ const sendCommand = async () => {
       power_state: air.value.power_state
     }
   })
-  if (res.code === 201){
+  if (res.code === 200){
     uni.showToast({
       title: '发送指令成功！',
       icon: 'success',
